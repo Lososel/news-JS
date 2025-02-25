@@ -1,22 +1,14 @@
-import path from 'path';
-import { merge } from 'webpack-merge';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import DotenvWebpackPlugin from 'dotenv-webpack';
-import webpack from 'webpack';
+const path = require('path');
+const { merge } = require('webpack-merge');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const DotenvWebpackPlugin = require('dotenv-webpack');
 
-import 'webpack-dev-server';
-
-const baseConfig: webpack.Configuration = {
-    entry: path.resolve(__dirname, './src/index.ts'), // change to .ts
+const baseConfig = {
+    entry: path.resolve(__dirname, './src/index.js'),
     mode: 'development',
     module: {
         rules: [
-            {
-                test: /\.ts$/, // add TypeScript loader
-                use: 'ts-loader',
-                exclude: /node_modules/,
-            },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
@@ -24,7 +16,7 @@ const baseConfig: webpack.Configuration = {
         ],
     },
     resolve: {
-        extensions: ['.ts', '.js'], // support TypeScript files
+        extensions: ['.js'],
     },
     output: {
         filename: 'index.js',
@@ -40,7 +32,7 @@ const baseConfig: webpack.Configuration = {
     ],
 };
 
-export default async ({ mode }: { mode: string }) => {
+module.exports = ({ mode }) => {
     const isProductionMode = mode === 'prod';
     const envConfig = isProductionMode ? require('./webpack.prod.config') : require('./webpack.dev.config');
 

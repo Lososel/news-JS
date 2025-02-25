@@ -1,22 +1,19 @@
-interface RequestOptions {
-    endpoint: string;
-    options?: Record<string, string>;
-}
-
 class Loader {
-    private baseLink: string;
-    private options: Record<string, string>;
-
-    constructor(baseLink: string, options: Record<string, string>) {
+    constructor(baseLink, options) {
         this.baseLink = baseLink;
         this.options = options;
     }
 
-    getResp<T>({ endpoint, options = {} }: RequestOptions, callback: (data: T) => void): void {
-        this.load<T>('GET', endpoint, callback, options);
+    getResp(
+        { endpoint, options = {} },
+        callback = () => {
+            console.error('No callback for GET response');
+        }
+    ) {
+        this.load('GET', endpoint, callback, options);
     }
 
-    private errorHandler(res: Response): Response {
+    errorHandler(res) {
         if (!res.ok) {
             if (res.status === 401 || res.status === 404)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -26,7 +23,7 @@ class Loader {
         return res;
     }
 
-    private makeUrl(options: Record<string, string>, endpoint: string): string {
+    makeUrl(options, endpoint) {
         const urlOptions = { ...this.options, ...options };
         let url = `${this.baseLink}${endpoint}?`;
 
@@ -37,16 +34,11 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    private load<T>(
-        method: string,
-        endpoint: string,
-        callback: (data: T) => void,
-        options: Record<string, string> = {}
-    ): void {
+    load(method, endpoint, callback, options = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
-            .then((data: T) => callback(data))
+            .then((data) => callback(data))
             .catch((err) => console.error(err));
     }
 }
