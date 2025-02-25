@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig to read more about this file */
-
     /* Projects */
 
     /* Language and Environment */
@@ -9,7 +7,7 @@
 
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
-    "rootDir": "./src",                                 /* Specify the root folder within your source files. */
+    "rootDir": ".",                                 /* Specify the root folder within your source files. */
     "moduleResolution": "node",                     /* Specify how TypeScript looks up a file from a given module specifier. */
     
     /* JavaScript Support */
@@ -27,8 +25,9 @@
     "noImplicitAny": true,                            /* Enable error reporting for expressions and declarations with an implied 'any' type. */
     
 
-    /* Completeness */
-    
+    /* Completeness */   
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
-  }
+  },
+
+  "include": ["src", "webpack.prod.config.js", "webpack.dev.config.js", "webpack.config.ts"]
 }
