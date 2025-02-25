@@ -19,6 +19,7 @@ class Sources {
             const sourceCloneItem = sourceClone.querySelector('.source__item');
             if (sourceCloneItem) {
                 sourceCloneItem.setAttribute('data-source-id', item.id ?? '');
+                sourceCloneItem.classList.add('hidden');
             }
             fragment.append(sourceClone);
         });
@@ -27,6 +28,32 @@ class Sources {
         if (sourceContainer) {
             sourceContainer.append(fragment);
         }
+        this.enableSearch();
+    }
+
+    private enableSearch(): void {
+        const searchInput = document.getElementById('sourceSearch') as HTMLInputElement | null;
+        if (!searchInput) return;
+
+        searchInput.addEventListener('input', () => {
+            const searchText = searchInput.value.toLowerCase();
+            const sourceItems = document.querySelectorAll('.source__item');
+
+            if (searchText === '') {
+                sourceItems.forEach((item) => {
+                    (item as HTMLElement).classList.add('hidden');
+                });
+                return;
+            }
+            sourceItems.forEach((item) => {
+                const name = item.textContent?.toLowerCase() || '';
+                if (name.includes(searchText)) {
+                    (item as HTMLElement).classList.remove('hidden');
+                } else {
+                    (item as HTMLElement).classList.add('hidden');
+                }
+            });
+        });
     }
 }
 
