@@ -1,8 +1,8 @@
 .sources {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: 100%;
-    height: auto;
+    height: 120px;
     overflow: auto;
     align-items: center;
     font: 300 1em 'Fira Sans', sans-serif;
@@ -31,8 +31,4 @@
 .source__item-name {
     font-weight: 400;
     white-space: nowrap;
-}
-
-.hidden {
-    display: none;
 }
